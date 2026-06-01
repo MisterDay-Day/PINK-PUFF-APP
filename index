@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#f9a8c9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pink Puff Nails">
+<meta name="description" content="Book your nail appointment at Pink Puff Nails">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Pink Puff Nails</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f472b6;
+    --pink-light: #fce7f3;
+    --pink-pale: #fdf2f8;
+    --pink-deep: #db2777;
+    --blush: #fbcfe8;
+    --cream: #fff9fb;
+    --charcoal: #1f1f2e;
+    --muted: #9b7fa6;
+    --white: #ffffff;
+    --shadow: 0 4px 24px rgba(244,114,182,0.15);
+    --shadow-lg: 0 12px 48px rgba(244,114,182,0.2);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== SCREENS ===== */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* ===== SPLASH ===== */
+  #splash {
+    background: linear-gradient(145deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  #splash.active { display: flex; }
+
+  .splash-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    animation: float 6s ease-in-out infinite;
+  }
+  .orb1 { width: 300px; height: 300px; background: #f9a8d4; top: -80px; right: -80px; }
+  .orb2 { width: 200px; height: 200px; background: #f472b6; bottom: 50px; left: -60px; animation-delay: 3s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .logo-wrap {
+    text-align: center;
+    z-index: 1;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .logo-icon {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 12px;
+    display: block;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  .logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: -0.5px;
+  }
+  .logo-sub {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .splash-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 280px;
+    z-index: 1;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(244,114,182,0.35);
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(244,114,182,0.45); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-outline {
+    background: white;
+    color: var(--pink-deep);
+    border: 2px solid var(--blush);
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-outline:hover { border-color: var(--pink); background: var(--pink-pale); }
+
+  /* ===== NAV ===== */
+  .top-nav {
+    background: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 16px rgba(244,114,182,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--charcoal);
+  }
+  .nav-logo span { color: var(--pink); }
+  .nav-back {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--charcoal);
+    padding: 4px;
+  }
+  .nav-cart {
+    background: var(--pink-pale);
+    border: none;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  /* ===== HOME ===== */
+  #home { background: var(--cream); }
+
+  .hero {
+    background: linear-gradient(145deg, #fdf2f8, #fce7f3);
+    padding: 32px 20px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '💅';
+    position: absolute;
+    font-size: 120px;
+    right: -20px;
+    bottom: -20px;
+    opacity: 0.12;
+    transform: rotate(-20deg);
+  }
+  .hero-greeting {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+  .hero-title em { color: var(--pink-deep); font-style: italic; }
+  .hero-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 260px;
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+    padding: 0 20px;
+  }
+
+  .section { padding: 28px 0 8px; }
+
+  /* ===== SERVICE CARDS ===== */
+  .services-scroll {
+    display: flex;
+    gap: 14px;
+    padding: 0 20px 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .services-scroll::-webkit-scrollbar { display: none; }
+
+  .service-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 16px;
+    min-width: 150px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .service-card:hover, .service-card.selected {
+    border-color: var(--pink);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .service-card.selected { background: var(--pink-pale); }
+  .service-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+  .service-name { font-weight: 500; font-size: 14px; color: var(--charcoal); margin-bottom: 4px; }
+  .service-price { font-size: 16px; font-weight: 600; color: var(--pink-deep); }
+  .service-duration { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ===== BOTTOM CTA ===== */
+  .bottom-cta {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 16px 20px 28px;
+    background: linear-gradient(to top, white 60%, transparent);
+    z-index: 50;
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 0 20px;
+  }
+  .gallery-item {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fce7f3, #f9a8d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    overflow: hidden;
+  }
+
+  /* ===== BOOKING SCREEN ===== */
+  #booking { background: var(--cream); }
+
+  .booking-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 120px;
+  }
+
+  .form-section {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(244,114,182,0.08);
+  }
+  .form-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-field {
+    margin-bottom: 14px;
+  }
+  .form-field:last-child { margin-bottom: 0; }
+  .form-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--blush);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--charcoal);
+    background: var(--pink-pale);
+    transition: border-color 0.2s;
+    outline: none;
+    appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--pink);
+    background: white;
+  }
+  .form-textarea { resize: none; height: 80px; }
+
+  /* ===== DATE/TIME PICKER ===== */
+  .date-strip {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    margin-bottom: 16px;
+  }
+  .date-strip::-webkit-scrollbar { display: none; }
+  .date-chip {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: var(--pink-pale);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .date-chip:hover { border-color: var(--pink); }
+  .date-chip.selected {
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: white;
+    border-color: transparent;
+  }
+  .date-chip .day { font-size: 11px; font-weight: 500; opacity: 0.7; }
+  .date-chip .num { font-size: 18px; font-weight: 700; }
+  .date-chip.selected .day { opacity: 0.85; }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .time-chip {
+    padding: 10px 8px;
+    text-align: center;
+    border-radius: 12px;
+    background: var(--pink-pale);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    color: var(--charcoal);
+  }
+  .time-chip:hover { border-color: var(--pink); }
+  .time-chip.selected {
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: white;
+  }
+  .time-chip.unavailable {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ===== SERVICE SUMMARY ===== */
+  .selected-service-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--pink-pale);
+    border-radius: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--blush);
+  }
+  .ssb-icon { font-size: 28px; }
+  .ssb-info { flex: 1; }
+  .ssb-name { font-weight: 600; font-size: 15px; color: var(--charcoal); }
+  .ssb-meta { font-size: 12px; color: var(--muted); }
+  .ssb-price { font-size: 18px; font-weight: 700; color: var(--pink-deep); }
+
+  /* ===== CONFIRMATION ===== */
+  #confirm { background: var(--cream); }
+  .confirm-body {
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+  .confirm-icon {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 8px 32px rgba(244,114,182,0.4);
+    animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  .confirm-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--charcoal);
+  }
+  .confirm-sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .confirm-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    box-shadow: var(--shadow);
+    text-align: left;
+  }
+  .confirm-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--pink-pale);
+    font-size: 14px;
+  }
+  .confirm-row:last-child { border-bottom: none; }
+  .confirm-row-label { color: var(--muted); }
+  .confirm-row-value { font-weight: 500; color: var(--charcoal); }
+
+  /* ===== ADMIN ===== */
+  #admin {
+    background: var(--charcoal);
+    min-height: 100vh;
+    color: white;
+  }
+  .admin-nav {
+    background: #2a1a30;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .admin-nav-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .admin-nav-title span { color: var(--pink); }
+  .admin-badge {
+    background: var(--pink);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .admin-back {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .admin-body { padding: 20px; padding-bottom: 40px; }
+
+  .admin-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: #2a1a30;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(244,114,182,0.2);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--pink);
+  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+  .admin-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: white;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .filter-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+    background: rgba(244,114,182,0.15);
+    border: 1px solid rgba(244,114,182,0.3);
+    border-radius: 20px;
+    color: var(--pink);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-btn.active { background: var(--pink); color: white; }
+
+  .appt-card {
+    background: #2a1a30;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(244,114,182,0.15);
+    transition: all 0.2s;
+  }
+  .appt-card:hover { border-color: rgba(244,114,182,0.4); }
+  .appt-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .appt-name { font-weight: 600; font-size: 15px; color: white; }
+  .appt-time { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .appt-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .status-confirmed { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .status-pending { background: rgba(251,191,36,0.15); color: #fbbf24; }
+  .status-completed { background: rgba(244,114,182,0.15); color: var(--pink); }
+  .status-cancelled { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .appt-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .appt-service {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .appt-actions { display: flex; gap: 6px; }
+  .appt-action-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-confirm-appt { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .btn-cancel-appt { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .btn-confirm-appt:hover { background: #4ade80; color: white; }
+  .btn-cancel-appt:hover { background: #ef4444; color: white; }
+
+  .admin-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .admin-filters::-webkit-scrollbar { display: none; }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+  }
+  .empty-state div { font-size: 40px; margin-bottom: 12px; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--charcoal);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ===== PWA INSTALL ===== */
+  .install-banner {
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    margin: 20px;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-lg);
+  }
+  .install-icon { font-size: 28px; }
+  .install-text { flex: 1; }
+  .install-text strong { display: block; font-size: 14px; color: white; }
+  .install-text span { font-size: 12px; color: rgba(255,255,255,0.8); }
+  .install-btn {
+    background: white;
+    color: var(--pink-deep);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* MISC */
+  .spacer { height: 100px; }
+  .text-center { text-align: center; }
+  .mt-4 { margin-top: 16px; }
+
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 0;
+  }
+  .step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blush);
+    transition: all 0.3s;
+  }
+  .step-dot.active { background: var(--pink); width: 24px; border-radius: 4px; }
+
+  .phone-input-wrap { position: relative; }
+  .phone-prefix {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .phone-input-wrap .form-input { padding-left: 36px; }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div class="screen active" id="splash">
+  <div class="splash-orb orb1"></div>
+  <div class="splash-orb orb2"></div>
+  <div class="logo-wrap">
+    <span class="logo-icon">💅</span>
+    <div class="logo-name">Pink Puff Nails</div>
+    <div class="logo-sub">Nail Studio &amp; Boutique</div>
+  </div>
+  <div class="splash-btns">
+    <button class="btn-primary" onclick="showScreen('home')">Book an Appointment</button>
+    <button class="btn-outline" onclick="showAdminLogin()">Staff Login</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="home">
+  <div class="top-nav">
+    <button class="nav-back" onclick="showScreen('splash')">←</button>
+    <div class="nav-logo">Pink <span>Puff</span></div>
+    <button class="nav-cart" title="Menu">☰</button>
+  </div>
+
+  <div class="hero">
+    <div class="hero-greeting">Welcome to</div>
+    <div class="hero-title">Your <em>dream nails</em><br>await ✨</div>
+    <div class="hero-desc">Expert nail care with premium products. Walk in beauty, walk out glowing.</div>
+    <button class="btn-primary" style="width:fit-content;padding:14px 28px;font-size:14px" onclick="showScreen('booking')">Book Now →</button>
+  </div>
+
+  <!-- Install banner -->
+  <div class="install-banner" id="installBanner">
+    <span class="install-icon">📲</span>
+    <div class="install-text">
+      <strong>Add to Home Screen</strong>
+      <span>Quick access to your bookings</span>
+    </div>
+    <button class="install-btn" onclick="handleInstall()">Install</button>
+  </div>
+
+  <!-- Services -->
+  <div class="section">
+    <div class="section-title">Our Services</div>
+    <div class="services-scroll" id="homeServices"></div>
+  </div>
+
+  <!-- Gallery -->
+  <div class="section">
+    <div class="section-title">Nail Inspo</div>
+    <div class="gallery-grid">
+      <div class="gallery-item">💅</div>
+      <div class="gallery-item">✨</div>
+      <div class="gallery-item">🌸</div>
+      <div class="gallery-item">💖</div>
+      <div class="gallery-item">🎀</div>
+      <div class="gallery-item">🌺</div>
+    </div>
+  </div>
+
+  <div style="padding:28px 20px 0">
+    <div class="section-title" style="padding:0;margin-bottom:12px">Visit Us</div>
+    <div style="background:white;border-radius:16px;padding:18px;box-shadow:var(--shadow);font-size:14px;line-height:2;color:var(--muted)">
+      📍 123 Blossom Lane, Suite 5<br>
+      📞 (555) 867-5309<br>
+      🕐 Mon–Sat: 9am – 7pm<br>
+      🕐 Sun: 10am – 5pm
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="bottom-cta">
+    <button class="btn-primary" style="width:100%" onclick="showScreen('booking')">Book Your Appointment 💅</button>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<div class="screen" id="booking">
+  <div class="top-nav">
+    <button class="nav-back" onclick="showScreen('home')">← Back</button>
+    <div class="nav-logo">Book Now</div>
+    <div style="width:40px"></div>
+  </div>
+
+  <div class="step-indicator">
+    <div class="step-dot active" id="step1"></div>
+    <div class="step-dot" id="step2"></div>
+    <div class="step-dot" id="step3"></div>
+  </div>
+
+  <div class="booking-form">
+    <!-- Service selection -->
+    <div class="form-section">
+      <div class="form-section-title">💅 Choose Your Service</div>
+      <div id="serviceList"></div>
+    </div>
+
+    <!-- Date & Time -->
+    <div class="form-section">
+      <div class="form-section-title">📅 Pick a Date</div>
+      <div class="date-strip" id="dateStrip"></div>
+      <div class="form-section-title" style="margin-top:8px">⏰ Pick a Time</div>
+      <div class="time-grid" id="timeGrid"></div>
+    </div>
+
+    <!-- Client Info -->
+    <div class="form-section">
+      <div class="form-section-title">👤 Your Details</div>
+      <div class="form-field">
+        <label class="form-label">First Name</label>
+        <input class="form-input" type="text" id="clientFirst" placeholder="e.g. Jessica" autocomplete="given-name">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Last Name</label>
+        <input class="form-input" type="text" id="clientLast" placeholder="e.g. Smith" autocomplete="family-name">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Phone Number</label>
+        <div class="phone-input-wrap">
+          <span class="phone-prefix">📱</span>
+          <input class="form-input" type="tel" id="clientPhone" placeholder="(555) 000-0000" autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Email (optional)</label>
+        <input class="form-input" type="email" id="clientEmail" placeholder="jessica@email.com" autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Special Requests</label>
+        <textarea class="form-textarea" id="clientNotes" placeholder="e.g. Please remove existing gel, allergic to certain polishes..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-cta">
+    <button class="btn-primary" style="width:100%" onclick="submitBooking()">Confirm Booking ✨</button>
+  </div>
+</div>
+
+<!-- CONFIRMATION -->
+<div class="screen" id="confirm">
+  <div class="top-nav">
+    <div style="width:40px"></div>
+    <div class="nav-logo">Pink <span style="color:var(--pink)">Puff</span></div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="confirm-body">
+    <div class="confirm-icon">✓</div>
+    <div class="confirm-title">You're booked!</div>
+    <div class="confirm-sub">Your appointment has been confirmed.<br>We can't wait to see you! 💕</div>
+    <div class="confirm-card" id="confirmDetails"></div>
+    <button class="btn-primary" style="width:100%" onclick="showScreen('home')">Back to Home</button>
+    <button class="btn-outline" style="width:100%" onclick="showScreen('booking')">Book Another</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="screen" id="admin">
+  <div class="admin-nav">
+    <button class="admin-back" onclick="showScreen('splash')">←</button>
+    <div class="admin-nav-title">Pink <span>Puff</span> Admin</div>
+    <div class="admin-badge">Staff</div>
+  </div>
+
+  <div class="admin-body">
+    <div class="admin-stats" id="adminStats"></div>
+
+    <div style="margin-bottom:24px">
+      <div class="admin-section-title">
+        Appointments
+        <span style="font-size:12px;color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif">Today</span>
+      </div>
+      <div class="admin-filters" id="adminFilters">
+        <button class="filter-btn active" onclick="filterAppointments('all',this)">All</button>
+        <button class="filter-btn" onclick="filterAppointments('pending',this)">Pending</button>
+        <button class="filter-btn" onclick="filterAppointments('confirmed',this)">Confirmed</button>
+        <button class="filter-btn" onclick="filterAppointments('completed',this)">Completed</button>
+        <button class="filter-btn" onclick="filterAppointments('cancelled',this)">Cancelled</button>
+      </div>
+      <div id="appointmentList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== DATA ==========
+const SERVICES = [
+  { id: 1, icon: '💅', name: 'Classic Manicure', price: 25, duration: '30 min', desc: 'Shape, buff & polish' },
+  { id: 2, icon: '✨', name: 'Gel Manicure', price: 45, duration: '45 min', desc: 'Long-lasting gel finish' },
+  { id: 3, icon: '🌸', name: 'Acrylic Full Set', price: 65, duration: '75 min', desc: 'Full acrylic application' },
+  { id: 4, icon: '💎', name: 'Nail Art', price: 55, duration: '60 min', desc: 'Custom designs' },
+  { id: 5, icon: '🦋', name: 'Pedicure', price: 40, duration: '45 min', desc: 'Relaxing foot care' },
+  { id: 6, icon: '👑', name: 'Luxury Spa Set', price: 95, duration: '90 min', desc: 'Full pampering experience' },
+];
+
+const TIMES = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM'];
+
+let state = {
+  selectedService: null,
+  selectedDate: null,
+  selectedTime: null,
+  appointments: JSON.parse(localStorage.getItem('ppn_appointments') || '[]'),
+  adminFilter: 'all',
+};
+
+// ========== SCREEN NAV ==========
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if (id === 'admin') renderAdmin();
+  if (id === 'home') renderHomeServices();
+  if (id === 'booking') initBooking();
+}
+
+// ========== ADMIN LOGIN ==========
+function showAdminLogin() {
+  const pass = prompt('Enter staff password:');
+  if (pass === 'pinkpuff123') {
+    showScreen('admin');
+  } else if (pass !== null) {
+    showToast('❌ Incorrect password');
+  }
+}
+
+// ========== HOME ==========
+function renderHomeServices() {
+  const el = document.getElementById('homeServices');
+  el.innerHTML = SERVICES.map(s => `
+    <div class="service-card" onclick="quickBook(${s.id})">
+      <span class="service-icon">${s.icon}</span>
+      <div class="service-name">${s.name}</div>
+      <div class="service-price">$${s.price}</div>
+      <div class="service-duration">${s.duration}</div>
+    </div>
+  `).join('');
+}
+
+function quickBook(id) {
+  state.selectedService = SERVICES.find(s => s.id === id);
+  showScreen('booking');
+}
+
+// ========== BOOKING ==========
+function initBooking() {
+  renderServiceList();
+  renderDateStrip();
+  renderTimeGrid();
+  updateSteps();
+}
+
+function renderServiceList() {
+  const el = document.getElementById('serviceList');
+  el.innerHTML = SERVICES.map(s => `
+    <div class="selected-service-badge" style="cursor:pointer;margin-bottom:10px;${state.selectedService?.id===s.id?'border-color:var(--pink);background:var(--pink-pale)':''}" onclick="selectService(${s.id})">
+      <span class="ssb-icon">${s.icon}</span>
+      <div class="ssb-info">
+        <div class="ssb-name">${s.name}</div>
+        <div class="ssb-meta">${s.duration} · ${s.desc}</div>
+      </div>
+      <div class="ssb-price">$${s.price}</div>
+    </div>
+  `).join('');
+}
+
+function selectService(id) {
+  state.selectedService = SERVICES.find(s => s.id === id);
+  renderServiceList();
+  updateSteps();
+}
+
+function renderDateStrip() {
+  const strip = document.getElementById('dateStrip');
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const today = new Date();
+  let html = '';
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const label = d.toISOString().split('T')[0];
+    const isSel = state.selectedDate === label;
+    html += `
+      <div class="date-chip ${isSel?'selected':''}" onclick="selectDate('${label}')">
+        <div class="day">${i===0?'Today':days[d.getDay()]}</div>
+        <div class="num">${d.getDate()}</div>
+      </div>`;
+  }
+  strip.innerHTML = html;
+}
+
+function selectDate(date) {
+  state.selectedDate = date;
+  state.selectedTime = null;
+  renderDateStrip();
+  renderTimeGrid();
+  updateSteps();
+}
+
+function renderTimeGrid() {
+  const grid = document.getElementById('timeGrid');
+  // Simulate some booked slots
+  const bookedTimes = state.appointments
+    .filter(a => a.date === state.selectedDate && a.status !== 'cancelled')
+    .map(a => a.time);
+  grid.innerHTML = TIMES.map(t => {
+    const taken = bookedTimes.includes(t);
+    const sel = state.selectedTime === t;
+    return `<div class="time-chip ${taken?'unavailable':''} ${sel?'selected':''}" onclick="selectTime('${t}')">${t}</div>`;
+  }).join('');
+}
+
+function selectTime(t) {
+  state.selectedTime = t;
+  renderTimeGrid();
+  updateSteps();
+}
+
+function updateSteps() {
+  const d1 = document.getElementById('step1');
+  const d2 = document.getElementById('step2');
+  const d3 = document.getElementById('step3');
+  d1.className = 'step-dot ' + (state.selectedService ? 'active' : '');
+  d2.className = 'step-dot ' + (state.selectedDate && state.selectedTime ? 'active' : '');
+  d3.className = 'step-dot';
+}
+
+function submitBooking() {
+  const first = document.getElementById('clientFirst').value.trim();
+  const last = document.getElementById('clientLast').value.trim();
+  const phone = document.getElementById('clientPhone').value.trim();
+
+  if (!state.selectedService) return showToast('Please select a service 💅');
+  if (!state.selectedDate) return showToast('Please pick a date 📅');
+  if (!state.selectedTime) return showToast('Please pick a time ⏰');
+  if (!first) return showToast('Please enter your first name');
+  if (!last) return showToast('Please enter your last name');
+  if (!phone) return showToast('Please enter your phone number');
+
+  const appt = {
+    id: Date.now(),
+    service: state.selectedService,
+    date: state.selectedDate,
+    time: state.selectedTime,
+    client: { first, last, phone, email: document.getElementById('clientEmail').value.trim(), notes: document.getElementById('clientNotes').value.trim() },
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+  };
+
+  state.appointments.unshift(appt);
+  localStorage.setItem('ppn_appointments', JSON.stringify(state.appointments));
+
+  // Show confirmation
+  const fmtDate = new Date(state.selectedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+  document.getElementById('confirmDetails').innerHTML = `
+    <div class="confirm-row"><span class="confirm-row-label">Service</span><span class="confirm-row-value">${appt.service.icon} ${appt.service.name}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Date</span><span class="confirm-row-value">${fmtDate}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Time</span><span class="confirm-row-value">${appt.time}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Name</span><span class="confirm-row-value">${first} ${last}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Total</span><span class="confirm-row-value" style="color:var(--pink-deep);font-weight:700">$${appt.service.price}</span></div>
+  `;
+
+  // Reset
+  state.selectedService = null;
+  state.selectedDate = null;
+  state.selectedTime = null;
+  document.getElementById('clientFirst').value = '';
+  document.getElementById('clientLast').value = '';
+  document.getElementById('clientPhone').value = '';
+  document.getElementById('clientEmail').value = '';
+  document.getElementById('clientNotes').value = '';
+
+  showScreen('confirm');
+}
+
+// ========== ADMIN ==========
+function renderAdmin() {
+  renderAdminStats();
+  renderAppointments();
+}
+
+function renderAdminStats() {
+  const all = state.appointments;
+  const today = new Date().toISOString().split('T')[0];
+  const todayAppts = all.filter(a => a.date === today);
+  const revenue = all.filter(a => a.status === 'completed').reduce((s, a) => s + a.service.price, 0);
+
+  document.getElementById('adminStats').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num">${todayAppts.length}</div>
+      <div class="stat-label">Today's Bookings</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${all.filter(a=>a.status==='pending').length}</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${all.filter(a=>a.status==='confirmed').length}</div>
+      <div class="stat-label">Confirmed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$${revenue}</div>
+      <div class="stat-label">Total Revenue</div>
+    </div>
+  `;
+}
+
+function filterAppointments(filter, btn) {
+  state.adminFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAppointments();
+}
+
+function renderAppointments() {
+  const list = document.getElementById('appointmentList');
+  let appts = [...state.appointments];
+  if (state.adminFilter !== 'all') appts = appts.filter(a => a.status === state.adminFilter);
+  appts.sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
+
+  if (appts.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div>📭</div>No appointments found</div>';
+    return;
+  }
+
+  list.innerHTML = appts.map(a => {
+    const fmtDate = new Date(a.date + 'T12:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric' });
+    return `
+      <div class="appt-card">
+        <div class="appt-top">
+          <div>
+            <div class="appt-name">${a.client.first} ${a.client.last}</div>
+            <div class="appt-time">${fmtDate} · ${a.time}</div>
+          </div>
+          <span class="appt-status status-${a.status}">${a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span>
+        </div>
+        <div class="appt-bottom">
+          <div class="appt-service">${a.service.icon} ${a.service.name} · <strong style="color:var(--pink)">$${a.service.price}</strong></div>
+          <div class="appt-actions">
+            ${a.status==='pending'?`<button class="appt-action-btn btn-confirm-appt" onclick="updateApptStatus(${a.id},'confirmed')" title="Confirm">✓</button>`:''}
+            ${a.status==='confirmed'?`<button class="appt-action-btn btn-confirm-appt" onclick="updateApptStatus(${a.id},'completed')" title="Mark Complete">⭐</button>`:''}
+            ${a.status!=='cancelled'&&a.status!=='completed'?`<button class="appt-action-btn btn-cancel-appt" onclick="updateApptStatus(${a.id},'cancelled')" title="Cancel">✕</button>`:''}
+          </div>
+        </div>
+        ${a.client.notes?`<div style="margin-top:8px;font-size:12px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.05);border-radius:8px;padding:8px">📝 ${a.client.notes}</div>`:''}
+      </div>`;
+  }).join('');
+}
+
+function updateApptStatus(id, status) {
+  const appt = state.appointments.find(a => a.id === id);
+  if (appt) {
+    appt.status = status;
+    localStorage.setItem('ppn_appointments', JSON.stringify(state.appointments));
+    renderAdmin();
+    showToast(status === 'confirmed' ? '✅ Appointment confirmed' : status === 'completed' ? '⭐ Marked as complete' : '❌ Appointment cancelled');
+  }
+}
+
+// ========== TOAST ==========
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ========== PWA / INSTALL ==========
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').style.display = 'flex';
+});
+
+function handleInstall() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; document.getElementById('installBanner').style.display = 'none'; });
+  } else {
+    showToast('📱 On iOS: tap Share → Add to Home Screen');
+  }
+}
+
+// Hide install banner if already installed
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  document.getElementById('installBanner') && (document.getElementById('installBanner').style.display = 'none');
+}
+
+// Init home services on load
+renderHomeServices();
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
